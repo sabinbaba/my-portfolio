@@ -51,17 +51,25 @@ export default function ProfileCard({
   return (
     <div className="flex flex-col items-center">
       {/* Profile Picture */}
-      <div className="relative">
+      <div className="relative group">
+        {/* Glow effect */}
         <div
-          className={`${getSizeClasses()} rounded-full border-4 ${getThemeColor()} overflow-hidden bg-slate-800 shadow-2xl`}
+          className={`absolute inset-0 rounded-full ${getThemeColor().replace(
+            "border",
+            "bg"
+          )} opacity-20 blur-xl group-hover:opacity-30 transition-opacity duration-300`}
+        ></div>
+
+        <div
+          className={`relative ${getSizeClasses()} rounded-full border-4 ${getThemeColor()} overflow-hidden bg-slate-800 shadow-2xl transition-transform duration-300 group-hover:scale-[1.02]`}
         >
           <img
             src="/sabin-profile.jpg"
             alt="Sabin NTAKIRUTIMANA - Cybersecurity & IoT Expert"
             className="w-full h-full object-cover"
             style={{
-              objectPosition: "50% 15%",
-              transform: "scale(1.2)",
+              objectPosition: "50% 10%", // Adjusted for perfect head positioning
+              transform: "scale(1.02)", // Minimal zoom
             }}
           />
         </div>
@@ -70,7 +78,7 @@ export default function ProfileCard({
         <motion.div
           className={`absolute inset-0 rounded-full border-2 ${getThemeRing()}`}
           animate={{
-            scale: [1, 1.1, 1],
+            scale: [1, 1.05, 1],
             opacity: [0.5, 0.8, 0.5],
           }}
           transition={{
