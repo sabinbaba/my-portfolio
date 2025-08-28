@@ -7,7 +7,8 @@ import CircuitBackground from "./CircuitBackground";
 import SecurityBackground from "./SecurityBackground";
 import MLBackground from "./MLBackground";
 import TerminalTyping from "./TerminalTyping";
-import AIAgent from "./AIAgent"; // Import the AIAgent
+import AIAgent from "./AIAgent";
+import BookingCalendar from "./BookingCalendar";
 
 interface HeroSectionProps {
   theme: "iot" | "security" | "ml";
@@ -15,6 +16,8 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ theme, setTheme }: HeroSectionProps) {
+  const [showBooking, setShowBooking] = useState(false);
+
   const cycleTheme = () => {
     const themes: ("iot" | "security" | "ml")[] = ["iot", "security", "ml"];
     const currentIndex = themes.indexOf(theme);
@@ -52,6 +55,17 @@ export default function HeroSection({ theme, setTheme }: HeroSectionProps) {
         return "border-rose-500";
       case "ml":
         return "border-purple-400";
+    }
+  };
+
+  const getThemeBg = () => {
+    switch (theme) {
+      case "iot":
+        return "bg-cyan-500";
+      case "security":
+        return "bg-rose-500";
+      case "ml":
+        return "bg-purple-500";
     }
   };
 
@@ -124,6 +138,19 @@ export default function HeroSection({ theme, setTheme }: HeroSectionProps) {
             {theme}
           </span>
         </motion.div>
+
+        {/* Booking Toggle Button */}
+        <motion.button
+          className={`absolute top-4 left-4 sm:top-6 sm:left-6 ${getThemeBg()} text-white px-4 py-2 rounded-full flex items-center gap-2 backdrop-blur-sm bg-opacity-90 hover:bg-opacity-100 transition-all`}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          onClick={() => setShowBooking(!showBooking)}
+        >
+          <span className="text-sm font-medium">
+            {showBooking ? "Close Calendar" : "Book Appointment"}
+          </span>
+        </motion.button>
 
         {/* Main Content - Centered Block Layout */}
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 w-full pt-20 pb-12">
@@ -244,6 +271,47 @@ export default function HeroSection({ theme, setTheme }: HeroSectionProps) {
           </motion.div>
         </div>
       </div>
+
+      {/* Booking Calendar - Positioned as a modal overlay */}
+      <AnimatePresence>
+        {showBooking && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="relative bg-slate-900/95 backdrop-blur-lg rounded-xl border-2 border-slate-700/50 shadow-2xl max-w-md w-full mx-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 20 }}
+            >
+              <button
+                onClick={() => setShowBooking(false)}
+                className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors z-10"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+              <BookingCalendar theme={theme} />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
