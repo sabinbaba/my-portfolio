@@ -7,6 +7,7 @@ import CircuitBackground from "./CircuitBackground";
 import SecurityBackground from "./SecurityBackground";
 import MLBackground from "./MLBackground";
 import TerminalTyping from "./TerminalTyping";
+import AIAgent from "./AIAgent"; // Import the AIAgent
 
 interface HeroSectionProps {
   theme: "iot" | "security" | "ml";
@@ -93,6 +94,9 @@ export default function HeroSection({ theme, setTheme }: HeroSectionProps) {
         </AnimatePresence>
       </div>
 
+      {/* AI Agent Component */}
+      <AIAgent theme={theme} />
+
       {/* Content */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Theme Toggle */}
@@ -152,8 +156,8 @@ export default function HeroSection({ theme, setTheme }: HeroSectionProps) {
                   alt="Sabin NTAKIRUTIMANA - Cyber Security & IoT Expert"
                   className="w-full h-full object-cover"
                   style={{
-                    objectPosition: "50% 10%", // Perfect head positioning
-                    transform: "scale(1.01)", // Minimal zoom
+                    objectPosition: "50% 10%",
+                    transform: "scale(1.01)",
                   }}
                 />
               </div>
